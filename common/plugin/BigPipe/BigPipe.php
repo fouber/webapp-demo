@@ -17,15 +17,17 @@ class BigPipe {
     static private $_pagelets = array();
     static private $_title = '';
 
-    static private function init() {
-        $is_ajax = isset($_SERVER['HTTP_X_REQUESTED_WITH'])
-            && (strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
-        if ($is_ajax) {
-            self::setMode(self::QUICKLING);
-        } else {
-            self::setMode(self::PIPE_LINE);
+    static public function init() {
+        if(!isset(self::$_mode)){
+            $is_ajax = isset($_SERVER['HTTP_X_REQUESTED_WITH'])
+                && (strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
+            if ($is_ajax) {
+                self::setMode(self::QUICKLING);
+            } else {
+                self::setMode(self::PIPE_LINE);
+            }
+            self::filter($_GET['pagelets']);
         }
-        self::filter($_GET['pagelets']);
     }
 
     static public function setMode($mode){
@@ -55,7 +57,6 @@ class BigPipe {
     }
 
     static public function start($id = null) {
-        self::init();
         $id = empty($id) ? '__elm_' . self::$_session_id ++ : str_replace(array(':', '/'), '_', preg_replace('/\.tpl$/i', '', $id));
         $hit = true;
         switch(self::$_mode) {
@@ -226,7 +227,7 @@ class BigPipe {
         if ($script) {
             $collection['res']['script'] = $script;
         }
-
+        
         switch($mode){
             case self::NO_SCRIPT:
                 $html = self::renderCss($html);

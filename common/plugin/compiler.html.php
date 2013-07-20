@@ -5,8 +5,9 @@ function smarty_compiler_html($arrParams,  $smarty){
     unset($arrParams['framework']);
     $strAttr = '';
     $strCode  = '<?php ';
+    $strCode .= 'if(!class_exists(\'BigPipe\')){require_once(\'' . $strResourceApiPath . '\');}';
+    $strCode .= 'BigPipe::init();';
     if (isset($strFramework)) {
-        $strCode .= 'if(!class_exists(\'BigPipe\')){require_once(\'' . $strResourceApiPath . '\');}';
         $strCode .= 'BigPipeResource::setFramework(BigPipeResource::getUri('.$strFramework.', $_smarty_tpl->smarty));';
     }
     $strCode .= ' ?>';
