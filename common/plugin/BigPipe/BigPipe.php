@@ -25,7 +25,7 @@ class BigPipe {
         } else {
             self::setMode(self::PIPE_LINE);
         }
-        self::filter($_GET['filter']);
+        self::filter($_GET['pagelets']);
     }
 
     static public function setMode($mode){

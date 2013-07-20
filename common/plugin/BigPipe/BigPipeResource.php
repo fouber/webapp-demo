@@ -183,6 +183,7 @@ class BigPipeResource {
                         self::loadDeps($arrRes, $smarty, $async);
                     }
                     if ($isStatic) {
+                        //unset($arrRes['uri']);
                         if (BigPipe::getMode() === BigPipe::PIPE_LINE
                             && isset($_COOKIE['FIS_PAGE_LOADED_FLAG'])) {
                             unset($arrRes['content']);
@@ -226,7 +227,7 @@ class BigPipeResource {
             'xhtml',
         );
         if (preg_match('/\.('.implode('|', $arrExt).')$/', $strName)) {
-            trigger_error(date('Y-m-d H:i:s') . '   ' . $strMessage, $errorLevel);
+            trigger_error(date('Y-m-d H:i:s') . '   ' . $strMessage . '['. $strName .']', $errorLevel);
         }
     }
 }
